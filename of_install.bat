@@ -9,18 +9,24 @@ echo.
 echo Please make sure you have the required games installed before pressing continue!
 echo Team Fortress 2 and Source SDK 2013 Multiplayer are REQUIRED for this game to run.
 echo.
+set /p gameInst="Do you want to install them now? (y/n): "
+If /i "%gameInst%"=="y" goto instgm
+If /i "%gameInst%"=="n" goto cont
+
+:instgm
+echo.
+echo Installing TF2...
+start iexplore.exe steam://install/440
+echo.
+echo Once the game has downloaded successfully, hit enter.
 pause
-:: lol i don't know how to get a browser to open properly
-:: set /p gameInst="Do you want to install them now? (y/n): "
-:: If /i "%gameInst%"=="y" goto instgm
-:: If /i "%gameInst%"=="n" goto cont
-:: 
-:: :instgm
-:: start steam://install/440
-:: pause
-:: start steam://install/243750
-:: pause
-:: goto cont 
+echo.
+echo Installing Source SDK 2013 Multiplayer...
+start iexplore.exe steam://install/243750
+echo.
+echo Once the game has downloaded successfully, hit enter.
+pause
+goto cont 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :cont
 setlocal ENABLEEXTENSIONS
@@ -56,9 +62,9 @@ cd /D %STEAM_REG_PATH%
 goto installOF
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :installOF
-echo Installing...
+echo Installing Open Fortress...
 echo.
-echo Just press "OK" for anything that pops up. Everything is setup for you!
+echo Just press "OK" for anything that pops up. Everything is setup automatically!
 echo.
 if exist "open_fortress\.svn\wc.db" (
 	"%TORT_REG_PATH%" /command:update /path:".\open_fortress" /skipprechecks /closeonend:0
