@@ -48,10 +48,22 @@ set PATH_STEAM=HKEY_CURRENT_USER\SOFTWARE\Valve\Steam
 set VALUE_STEAM=SourceModInstallPath
 
 FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_STEAM% /v %VALUE_STEAM% 2^>nul`) DO (
-    set ValueName2=%%A
-    set ValueType2=%%B
     set STEAM_REG_PATH=%%C
 )
+
+if not exist %STEAM_REG_PATH%\NUL (
+	goto 32bitSteam
+)
+
+:32bitSteam
+set PATH_STEAM=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam
+set VALUE_STEAM=InstallPath
+
+FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_STEAM% /v %VALUE_STEAM% 2^>nul`) DO (
+    set STEAM_REG_PATH=%%C
+)
+
+set "STEAM_REG_PATH=%STEAM_REG_PATH%\steamapps\sourcemods"
 
 if not exist %STEAM_REG_PATH%\NUL (
 	echo Steam not installed! ^(Or you've messed with your registry...^)
@@ -81,7 +93,7 @@ goto finishMain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :finishMain
 echo ======================================
-echo Succussfully installed Open Fortress!
+echo Successfully installed Open Fortress!
 echo ======================================
 echo Please restart Steam (If you aren't updating) by clicking STEAM ^> ^EXIT at the top of the steam client, then restart!
 echo.
