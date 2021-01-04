@@ -81,7 +81,7 @@ goto finishMain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :finishMain
 echo ======================================
-echo Succussfully installed Open Fortress!
+echo Successfully installed Open Fortress!
 echo ======================================
 echo Please restart Steam (If you aren't updating) by clicking STEAM ^> ^EXIT at the top of the steam client, then restart!
 echo.
