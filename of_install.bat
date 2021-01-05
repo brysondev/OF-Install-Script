@@ -56,17 +56,20 @@ if not exist %STEAM_REG_PATH%\NUL (
 )
 
 :32bitSteam
-set PATH_STEAM=HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam
+:: Steam fucked up the registry keys for 32 bit systems https://i.imgur.com/w816RTW.png
+:: Gotta use HKLM
+
+set PATH_STEAM=HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam
 set VALUE_STEAM=InstallPath
 
-FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_STEAM% /v %VALUE_STEAM% 2^>nul`) DO (
+FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_STEAM% /reg:32 /v %VALUE_STEAM% 2^>nul`) DO (
     set STEAM_REG_PATH=%%C
 )
 
 set "STEAM_REG_PATH=%STEAM_REG_PATH%\steamapps\sourcemods"
-
-if not exist %STEAM_REG_PATH%\NUL (
-	echo Steam not installed! ^(Or you've messed with your registry...^)
+echo %STEAM_REG_PATH%
+if not exist "%STEAM_REG_PATH%\" (
+	echo Steam not installed! ^(Or something broke...^)
 	goto exitmain
 )
 
