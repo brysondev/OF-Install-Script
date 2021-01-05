@@ -67,7 +67,7 @@ FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_STEAM% /reg:32 /v 
 )
 
 set "STEAM_REG_PATH=%STEAM_REG_PATH%\steamapps\sourcemods"
-echo %STEAM_REG_PATH%
+
 if not exist "%STEAM_REG_PATH%\" (
 	echo Steam not installed! ^(Or something broke...^)
 	goto exitmain
