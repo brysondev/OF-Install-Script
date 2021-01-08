@@ -11,4 +11,4 @@ Installs Open Fortress with relative ease. Windows 7+ only
 
 3. Play and have fun!
 
-##### Note: You can also run the script to update your game! 
+## Note: You can also run the script to update your game! Use this script if you are confused about installing or updating your game!!
