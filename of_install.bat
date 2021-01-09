@@ -43,8 +43,6 @@ set PATH_TORT=HKEY_LOCAL_MACHINE\SOFTWARE\TortoiseSVN
 set VALUE_TORT=ProcPath
 
 FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %PATH_TORT% /v %VALUE_TORT% 2^>nul`) DO (
-    set ValueName=%%A
-    set ValueType=%%B
     set TORT_REG_PATH=%%C
 )
 
@@ -91,6 +89,7 @@ cd /D %STEAM_REG_PATH%
 goto installOF
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :installOF
+echo.
 echo Installing Open Fortress...
 echo.
 echo.
@@ -128,4 +127,8 @@ echo.
 goto exitmain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :exitmain
+echo.
+echo For any issues you are unsure about regarding the install, kindly ping bryson#1337 on the offical public Open Fortress Discord in #windows-troubleshooting.
+echo Discord: https://discord.gg/Jk3NUb7
+echo.
 PAUSE
