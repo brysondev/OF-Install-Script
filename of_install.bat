@@ -44,7 +44,7 @@ goto murse
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :murse
 setlocal ENABLEEXTENSIONS
-set MURSE_PATH="%TEMP%\murse\"
+set MURSE_PATH=%TEMP%\murse\
 set PATH_STEAM=HKEY_CURRENT_USER\SOFTWARE\Valve\Steam
 set VALUE_STEAM=SourceModInstallPath
 set STEAM_EXE=SteamExe
@@ -60,15 +60,18 @@ if not exist %STEAM_REG_PATH%\NUL > nul 2>&1(
 	)
 )
 
-if not exist "%MURSE_PATH%\murse.exe" (
+if not exist "%MURSE_PATH%murse.exe" (
     echo Installing Murse CLI...
     echo.
     cd %TEMP%
     md "murse"
     cd "murse"
-    powershell -Command "Invoke-WebRequest https://dl.spiderden.net/murse/windows -Outfile murse.exe"
+    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.0/murse-v0.3.0-windows-386.zip', 'murse.zip')"
+    Call :UnZipFile "%MURSE_PATH%" "%MURSE_PATH%murse.zip"
 )
-
+goto verify
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:verify
 echo Verifying Murse exists...
 cd /D "%MURSE_PATH%"
 murse.exe -h
@@ -84,13 +87,29 @@ echo Murse verified!
 goto installOF
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:UnZipFile <ExtractTo> <newzipfile>
+set vbs="%temp%\_.vbs"
+if exist %vbs% del /f /q %vbs%
+>>%vbs% echo Set fso = CreateObject("Scripting.FileSystemObject")
+>>%vbs% echo If NOT fso.FolderExists(%1) Then
+>>%vbs% echo fso.CreateFolder(%1)
+>>%vbs% echo End If
+>>%vbs% echo set objShell = CreateObject("Shell.Application")
+>>%vbs% echo set FilesInZip=objShell.NameSpace(%2).items
+>>%vbs% echo objShell.NameSpace(%1).CopyHere(FilesInZip)
+>>%vbs% echo Set fso = Nothing
+>>%vbs% echo Set objShell = Nothing
+cscript //nologo %vbs%
+if exist %vbs% del /f /q %vbs%
+goto verify
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :installOF
 echo.
 echo Installing Open Fortress...
 echo.
 
 :: TODO: Possibly let them input threads, but honestly this should be fine for now...
-murse.exe upgrade "%STEAM_REG_PATH%\open_fortress"
+murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -u "https://toast3.openfortress.fun/toast"
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong... 
     goto exitmain
@@ -98,7 +117,7 @@ if %ERRORLEVEL% EQU 1 (
 echo Validating just in case... 
 echo This will take a while...
 echo.
-murse.exe verify "%STEAM_REG_PATH%\open_fortress" -r
+murse.exe verify "%STEAM_REG_PATH%\open_fortress" -r -u "https://toast3.openfortress.fun/toast"
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong... 
     goto exitmain
@@ -166,7 +185,14 @@ echo MMMMMMMMMMMMMMMMWKkl;''''''''''''''''''''''''''''''''';lkKWMMMMMMMMMMMMMMMM
 echo MMMMMMMMMMMMMMMMMMWWKkdc;''''.''''''....''''..'''';cokKWWMMMMMMMMMMMMMMMMMM
 echo MMMMMMMMMMMMMMMMMMMMMMWNKOxol:;,,'''''''''',;:loxOKNWMMMMMMMMMMMMMMMMMMMMMM
 echo MMMMMMMMMMMMMMMMMMMMMMMMMMMWWNXK00OOOkOOO00KXNWWMMMMMMMMMMMMMMMMMMMMMMMMMMM
+echo.
+echo Cleaning up...
+if exist %MURSE_PATH% ( 
+cd %TEMP%
+@RD /S /Q %TEMP%\murse
+)
 goto exitmain
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :exitmain
 echo.
@@ -174,3 +200,4 @@ echo For any issues you are unsure about regarding the install, kindly ping brys
 echo Discord: https://discord.gg/mKjW2ACCrm
 echo.
 PAUSE
+EXIT
