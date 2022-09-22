@@ -60,16 +60,22 @@ if not exist %STEAM_REG_PATH%\NUL > nul 2>&1(
 	)
 )
 
+if exist %MURSE_PATH% ( 
+cd %TEMP%
+@RD /S /Q %TEMP%\murse
+)
+
 if not exist "%MURSE_PATH%murse.exe" (
     echo Installing Murse CLI...
     echo.
     cd %TEMP%
     md "murse"
     cd "murse"
-    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.0/murse-v0.3.0-windows-386.zip', 'murse.zip')"
+    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.1/murse-v0.3.1-windows-386.zip', 'murse.zip')"
     Call :UnZipFile "%MURSE_PATH%" "%MURSE_PATH%murse.zip"
-)
+) 
 goto verify
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :verify
 echo Verifying Murse exists...
@@ -77,7 +83,7 @@ cd /D "%MURSE_PATH%"
 murse.exe -h
 
 if errorlevel 1 (
-    echo Murse inaccessable. Please run this script as ADMIN!
+    echo Murse inaccessable. Please run this script as ADMIN! (Or ensure your antivirus didn't delete the file...)
     goto exitmain
 )
 
@@ -102,6 +108,7 @@ if exist %vbs% del /f /q %vbs%
 cscript //nologo %vbs%
 if exist %vbs% del /f /q %vbs%
 goto verify
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :installOF
 echo.
