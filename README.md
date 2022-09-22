@@ -1,7 +1,7 @@
 # OF-Install-Script
 ![](https://openfortress.fun/media/logo.svg)
 
-Installs Open Fortress with relative ease. Windows 7+ only
+Installs Open Fortress with relative ease. Windows 10+ only (Its possible for the script to work on windows below 10, but make sure powershell is up to date!)
 
 ### Instructions
 
