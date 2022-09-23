@@ -83,7 +83,7 @@ cd /D "%MURSE_PATH%"
 murse.exe -h
 
 if errorlevel 1 (
-    echo Murse inaccessable. Please run this script as ADMIN! (Or ensure your antivirus didn't delete the file...)
+    echo Murse inaccessable. Verify that murse exists in: %MURSE_PATH%.
     goto exitmain
 )
 
