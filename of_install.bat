@@ -71,7 +71,7 @@ if not exist "%MURSE_PATH%murse.exe" (
     cd %TEMP%
     md "murse"
     cd "murse"
-    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.1/murse-v0.3.1-windows-386.zip', 'murse.zip')"
+    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.2/murse-v0.3.2-windows-386.zip', 'murse.zip')"
     Call :UnZipFile "%MURSE_PATH%" "%MURSE_PATH%murse.zip"
 ) 
 goto verify
