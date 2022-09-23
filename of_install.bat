@@ -116,7 +116,7 @@ echo Installing Open Fortress...
 echo.
 
 :: TODO: Possibly let them input threads, but honestly this should be fine for now...
-murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -1 -u "https://toast3.openfortress.fun/toast"
+murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -1
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong... 
     goto exitmain
@@ -124,7 +124,7 @@ if %ERRORLEVEL% EQU 1 (
 echo Validating just in case... 
 echo This will take a while...
 echo.
-murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r -u "https://toast3.openfortress.fun/toast"
+murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong... 
     goto exitmain
@@ -203,7 +203,7 @@ goto exitmain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :exitmain
 echo.
-echo For any issues you are unsure about regarding the install, kindly ping bryson on the offical public Open Fortress Discord in #windows-troubleshooting.
+echo For any issues you are unsure about regarding the install, kindly ping a dev on the offical public Open Fortress Discord in #windows-troubleshooting.
 echo Discord: https://discord.gg/mKjW2ACCrm
 echo.
 PAUSE
