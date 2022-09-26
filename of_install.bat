@@ -203,7 +203,7 @@ goto exitmain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :exitmain
 echo.
-echo For any issues you are unsure about regarding the install, kindly ping a dev on the offical public Open Fortress Discord in #windows-troubleshooting.
+echo For any issues you are unsure about regarding the install, kindly leave a message in the offical public Open Fortress Discord in #windows-troubleshooting.
 echo Discord: https://discord.gg/mKjW2ACCrm
 echo.
 PAUSE
