@@ -123,12 +123,22 @@ if %ERRORLEVEL% EQU 1 (
 )
 echo Validating just in case... 
 echo This will take a while...
+:: Since people are getting confused with the messages output by the verify command, here's a warning.
+SETLOCAL EnableExtensions DisableDelayedExpansion
+for /F %%a in ('echo prompt $E ^| cmd') do (
+  set "ESC=%%a"
+)
+SETLOCAL EnableDelayedExpansion
+echo %ESC%[44mIGNORE ANY ERRORS/MESSAGES ABOUT GAMEUI.DLL!! %ESC%[0m
 echo.
-murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r
+murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r 
+:: > nul 2>&1
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong... 
     goto exitmain
 )
+echo. 
+echo Finished!
 
 tasklist /fi "ImageName eq steam.exe" /fo csv 2>NUL | find /I "steam.exe">NUL
 if "%ERRORLEVEL%"=="0" (
@@ -154,44 +164,44 @@ goto finishMain
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :finishMain
 echo.
-echo ======================================
-echo Successfully installed Open Fortress!
-echo ======================================
+echo %ESC%[42m======================================%ESC%[0m
+echo %ESC%[42mSuccessfully installed Open Fortress! %ESC%[0m
+echo %ESC%[42m======================================%ESC%[0m
 echo.
-echo MMMMMMMMMMMMMMMMMMMMMMMMMMMWWWNNXXKKKKKKKXXNNWWMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMMMMMMMWWNK0OkxdooolllllllloodxkO0KNWWMWMMMMMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMMMMWNKOxdollllllllllcllllllllllllldxOKNWMMMMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMWN0kdlllllllllllc::;,',;::cllllllllllldk0NWWWMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMWWKkdllcllllllcccc;'''::;'...';ccccllllllclldkKWWWMMMMMMMMMMMM
-echo MMMMMMMMMMMWWKxolllllllcc:;'..'..oKN0d;.....'..',:cclllllllokKWMMMMMMMMMMMM
-echo MMMMMMMMMMWXkolllllc:;,'''......,OWMKd;............',;:ccllllokXWMMMMMMMMMM
-echo MMMMMMMMMN0dllllll:'.':okOl..,cdONWMKd;.......:xo......':lllllld0NWMMMMMMMM
-echo MMMMMMMWXklllllllc,..dNWMW0k0XWWMMWMKd;.......;l:.......,clllllllkNWWMMMMMM
-echo MMMMMMWXxllllllll:'.;0MWMMMMMMMWNNWMKd:.................':llllllllxXWMMMMMM
-echo MMMMMWXxlclcllclc;..lXMMMMMWN0kOKNWMKd:..................;cclccclclxXWMMMMM
-echo MMMMMNklccccccccc,.'xWWWNKxoclkXWMMMKd;..................,ccccccccclkNMMMMM
-echo MMMMW0occccccccc:..;0MXd;''ckNWMMMMMKd;...................:ccccccccco0WMMMM
-echo MMMMNxcccccccccc,..lXMO,'l0NMWWMMMMMKd;............,,.....,ccccccccccxNMMMM
-echo MMMW0occccccccc:'.'xWWd,dNMMMMMMMMMMKd;............:c.....':cccccccccoKWMMM
-echo MMMWOl:cccccccc;..;0MXccKMMMMMMMMMMMKd;............cd,.....;c:ccccccclOWMMM
-echo MMMNkc:::::::::,..lNMOcxWMMMMMMMMMMMKd;............cO:.....,::c::::::ckWMMM
-echo MMMNkc:::::::::'.'xWWxoXMMMMMMMMMMMMKd;............cKo.....':::::::::ckNMMM
-echo MMMWkc::::::::;..;0MXdkWMMMMMMMMMMMMKd;............cXk'.....;::::::::cOWMMM
-echo MMMW0l::::::::,..lNMKkXMMMMMMMMMMMMMKd;...,:cc:;,'.lXK:.....,::::::::l0WMMM
-echo MMMMXd:::::::;'.'kWWKKWMMMMMMMMMWWMMKd:....,cdk0KK0KWNo.....';:::::;:dXMMMM
-echo MMMMWOc;;;;;;,..;KMWXNMMMMMMMMMMMWWXxc,........,cd0XWWx'.....,;;;;;;cOWMMMM
-echo MMMMMNx:;;;;;'..oNMWWWMMMMMWMWWXOdc,...............;lxd,.....';;;;;:xNMMMMM
-echo MMMMMWKo;;;;,..'kWWWMMMMMMWXOdc,..............................,;;;;oKWMMMMM
-echo MMMMMMWKo;;;,..:KWMMMWWXOdc,.....',,;;;,''....................,;;;oKWMMMMMM
-echo MMMMMMMWXd;,'..oNWWXOdc,.....'',,,,,,,,,,,,,''................',;dXWMMMMMMM
-echo MMMMMMMMWNk:..'oOdc,......',,,,,,,,,,,,,,,,,,,,,'..............:xNWMMMMMMMM
-echo MMMMMMMMMMW0c.........'',,,,,,,,,,,,,,,,,,,,,,,,,,,''.........c0WMMMMMMMMMM
-echo MMMMMMMMMMMMNk:...''',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'''..':kNMMMMMMMMMMMM
-echo MMMMMMMMMMMMMWNOo:,''''''''''''''''''''''''''''''''''''',:oONWMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMWKkl;''''''''''''''''''''''''''''''''';lkKWMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMMMWWKkdc;''''.''''''....''''..'''';cokKWWMMMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMMMMMMMWNKOxol:;,,'''''''''',;:loxOKNWMMMMMMMMMMMMMMMMMMMMMM
-echo MMMMMMMMMMMMMMMMMMMMMMMMMMMWWNXK00OOOkOOO00KXNWWMMMMMMMMMMMMMMMMMMMMMMMMMMM
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWNNXXKKKKKKKXXNNWWMMMMMMMMMMMMMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMMMMMWWNK0OkxdooolllllllloodxkO0KNWWMWMMMMMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMMWNKOxdollllllllllcllllllllllllldxOKNWMMMMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMWN0kdlllllllllllc::;,',;::cllllllllllldk0NWWWMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMWWKkdllcllllllcccc;'''::;'...';ccccllllllclldkKWWWMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMWWKxolllllllcc:;'..'..oKN0d;.....'..',:cclllllllokKWMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMWXkolllllc:;,'''......,OWMKd;............',;:ccllllokXWMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMN0dllllll:'.':okOl..,cdONWMKd;.......:xo......':lllllld0NWMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMWXklllllllc,..dNWMW0k0XWWMMWMKd;.......;l:.......,clllllllkNWWMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMWXxllllllll:'.;0MWMMMMMMMWNNWMKd:.................':llllllllxXWMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMWXxlclcllclc;..lXMMMMMWN0kOKNWMKd:..................;cclccclclxXWMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMNklccccccccc,.'xWWWNKxoclkXWMMMKd;..................,ccccccccclkNMMMMM%ESC%[0m
+echo %ESC%[35mMMMMW0occccccccc:..;0MXd;''ckNWMMMMMKd;...................:ccccccccco0WMMMM%ESC%[0m
+echo %ESC%[35mMMMMNxcccccccccc,..lXMO,'l0NMWWMMMMMKd;............,,.....,ccccccccccxNMMMM%ESC%[0m
+echo %ESC%[35mMMMW0occccccccc:'.'xWWd,dNMMMMMMMMMMKd;............:c.....':cccccccccoKWMMM%ESC%[0m
+echo %ESC%[35mMMMWOl:cccccccc;..;0MXccKMMMMMMMMMMMKd;............cd,.....;c:ccccccclOWMMM%ESC%[0m
+echo %ESC%[35mMMMNkc:::::::::,..lNMOcxWMMMMMMMMMMMKd;............cO:.....,::c::::::ckWMMM%ESC%[0m
+echo %ESC%[35mMMMNkc:::::::::'.'xWWxoXMMMMMMMMMMMMKd;............cKo.....':::::::::ckNMMM%ESC%[0m
+echo %ESC%[35mMMMWkc::::::::;..;0MXdkWMMMMMMMMMMMMKd;............cXk'.....;::::::::cOWMMM%ESC%[0m
+echo %ESC%[35mMMMW0l::::::::,..lNMKkXMMMMMMMMMMMMMKd;...,:cc:;,'.lXK:.....,::::::::l0WMMM%ESC%[0m
+echo %ESC%[35mMMMMXd:::::::;'.'kWWKKWMMMMMMMMMWWMMKd:....,cdk0KK0KWNo.....';:::::;:dXMMMM%ESC%[0m
+echo %ESC%[35mMMMMWOc;;;;;;,..;KMWXNMMMMMMMMMMMWWXxc,........,cd0XWWx'.....,;;;;;;cOWMMMM%ESC%[0m
+echo %ESC%[35mMMMMMNx:;;;;;'..oNMWWWMMMMMWMWWXOdc,...............;lxd,.....';;;;;:xNMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMWKo;;;;,..'kWWWMMMMMMWXOdc,..............................,;;;;oKWMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMWKo;;;,..:KWMMMWWXOdc,.....',,;;;,''....................,;;;oKWMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMWXd;,'..oNWWXOdc,.....'',,,,,,,,,,,,,''................',;dXWMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMWNk:..'oOdc,......',,,,,,,,,,,,,,,,,,,,,'..............:xNWMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMW0c.........'',,,,,,,,,,,,,,,,,,,,,,,,,,,''.........c0WMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMNk:...''',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,'''..':kNMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMWNOo:,''''''''''''''''''''''''''''''''''''',:oONWMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMWKkl;''''''''''''''''''''''''''''''''';lkKWMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMWWKkdc;''''.''''''....''''..'''';cokKWWMMMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMMMMMWNKOxol:;,,'''''''''',;:loxOKNWMMMMMMMMMMMMMMMMMMMMMM%ESC%[0m
+echo %ESC%[35mMMMMMMMMMMMMMMMMMMMMMMMMMMMWWNXK00OOOkOOO00KXNWWMMMMMMMMMMMMMMMMMMMMMMMMMMM%ESC%[0m
 echo.
 echo Cleaning up...
 if exist %MURSE_PATH% ( 
