@@ -14,6 +14,13 @@ echo Also expect this to freeze a bunch for a fresh install!!
 echo.
 PAUSE
 
+REG QUERY "HKLM\SOFTWARE\Microsoft\PowerShell\3" > nul 2>&1
+if %ERRORLEVEL% EQU 1 (
+    echo Missing Powershell v3. Please install it at the following link: https://www.microsoft.com/en-ca/download/details.aspx?id=34595 and re-run this script.
+    powershell -Command "start https://www.microsoft.com/en-ca/download/details.aspx?id=34595"
+	goto exitmain
+)
+
 REG QUERY HKCU\SOFTWARE\Valve\Steam\Apps\440 > nul 2>&1
 if %ERRORLEVEL% EQU 0 (
 	REG QUERY HKCU\SOFTWARE\Valve\Steam\Apps\243750 > nul 2>&1
@@ -43,7 +50,9 @@ goto murse
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :murse
+echo.
 setlocal ENABLEEXTENSIONS
+setlocal ENABLEDELAYEDEXPANSION
 set MURSE_PATH=%TEMP%\murse\
 set PATH_STEAM=HKEY_CURRENT_USER\SOFTWARE\Valve\Steam
 set VALUE_STEAM=SourceModInstallPath
@@ -61,17 +70,18 @@ if not exist %STEAM_REG_PATH%\NUL > nul 2>&1(
 )
 
 if exist %MURSE_PATH% ( 
-cd %TEMP%
+cd /D %TEMP%
 @RD /S /Q %TEMP%\murse
 )
 
 if not exist "%MURSE_PATH%murse.exe" (
     echo Installing Murse CLI...
     echo.
-    cd %TEMP%
+    cd /D %TEMP%
     md "murse"
-    cd "murse"
-    powershell -Command "(New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.2/murse-v0.3.2-windows-386.zip', 'murse.zip')"
+    cd /D "murse"
+    :: For windows 7 backwards compatibility...
+    powershell -Command "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.2/murse-v0.3.2-windows-386.zip', 'murse.zip')"
     Call :UnZipFile "%MURSE_PATH%" "%MURSE_PATH%murse.zip"
 ) 
 goto verify
@@ -80,7 +90,7 @@ goto verify
 :verify
 echo Verifying Murse exists...
 cd /D "%MURSE_PATH%"
-murse.exe -h
+murse.exe -h > nul 2>&1
 
 if errorlevel 1 (
     echo Murse inaccessable. Verify that murse exists in: %MURSE_PATH%.
@@ -142,14 +152,14 @@ echo Finished!
 
 tasklist /fi "ImageName eq steam.exe" /fo csv 2>NUL | find /I "steam.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-    echo Steam is still running! Restarting it now...
+    echo Steam is still running. Restarting it now...
     taskkill /F /IM steam.exe
 )
 TIMEOUT /T 3
 tasklist /fi "ImageName eq steam.exe" /fo csv 2>NUL | find /I "steam.exe">NUL
 if "%ERRORLEVEL%"=="0" (
     echo.
-    echo Steam is still running! We can't kill it for some reason. Exiting...
+    echo Steam is still running. We can't kill it for some reason. Exiting...
     goto exitmain
 )
 
@@ -191,7 +201,7 @@ echo %ESC%[0m %ESC%[0m %ESC%[0m %ESC%[0m %ESC%[0m %ESC%[0m %ESC%[0m %ESC%[0m %ES
 echo.
 echo Cleaning up...
 if exist %MURSE_PATH% ( 
-cd %TEMP%
+cd /D %TEMP%
 @RD /S /Q %TEMP%\murse
 )
 goto exitmain
