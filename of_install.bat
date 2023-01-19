@@ -124,27 +124,32 @@ goto verify
 echo.
 echo Installing Open Fortress...
 echo.
-
-:: TODO: Possibly let them input threads, but honestly this should be fine for now...
-murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -1
-if %ERRORLEVEL% EQU 1 (
-    echo Something went wrong... 
-    goto exitmain
-)
-echo Validating just in case... 
-echo This will take a while...
 :: Since people are getting confused with the messages output by the verify command, here's a warning.
 SETLOCAL EnableExtensions DisableDelayedExpansion
 for /F %%a in ('echo prompt $E ^| cmd') do (
   set "ESC=%%a"
 )
 SETLOCAL EnableDelayedExpansion
+
+:: TODO: Possibly let them input threads, but honestly this should be fine for now...
+murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -1
+if %ERRORLEVEL% EQU 1 (
+    echo Something went wrong...
+    echo %ESC%[101mError Code 4XX means you are temporarily ^(or permanently^) restricted from accessing the server. Try again in 20 minutes.%ESC%[0m
+    echo %ESC%[101mError Code 5XX means the server is having issues. Try again after bryson has been informed.%ESC%[0m 
+    goto exitmain
+)
+echo Validating just in case... 
+echo This will take a while...
+
 echo %ESC%[44mIGNORE ANY ERRORS/MESSAGES ABOUT GAMEUI.DLL!! %ESC%[0m
 echo.
 murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r 
 :: > nul 2>&1
 if %ERRORLEVEL% EQU 1 (
-    echo Something went wrong... 
+    echo Something went wrong...
+    echo %ESC%[101mError Code 4XX means you are temporarily ^(or permanently^) restricted from accessing the server. Try again in 20 minutes.%ESC%[0m
+    echo %ESC%[101mError Code 5XX means the server is having issues. Try again after bryson has been informed.%ESC%[0m
     goto exitmain
 )
 echo. 
