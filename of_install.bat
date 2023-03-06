@@ -81,7 +81,7 @@ if not exist "%MURSE_PATH%murse.exe" (
     md "murse"
     cd /D "murse"
     :: For windows 7 backwards compatibility...
-    powershell -Command "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~welt/murse/refs/download/v0.3.2/murse-v0.3.2-windows-386.zip', 'murse.zip')"
+    powershell -Command "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}; [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('https://git.sr.ht/~webb/murse/refs/download/v0.4.0/murse-v0.4.0-windows-amd64.zip', 'murse.zip')"
     Call :UnZipFile "%MURSE_PATH%" "%MURSE_PATH%murse.zip"
 ) 
 goto verify
@@ -132,7 +132,7 @@ for /F %%a in ('echo prompt $E ^| cmd') do (
 SETLOCAL EnableDelayedExpansion
 
 :: TODO: Possibly let them input threads, but honestly this should be fine for now...
-murse.exe upgrade "%STEAM_REG_PATH%\open_fortress" -1
+murse.exe upgrade "%STEAM_REG_PATH%\open_fortress"
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong...
     echo %ESC%[101mError Code 4XX means you are temporarily ^(or permanently^) restricted from accessing the server. Try again in 20 minutes.%ESC%[0m
@@ -142,7 +142,7 @@ if %ERRORLEVEL% EQU 1 (
 echo Validating just in case... 
 echo This will take a while...
 
-murse.exe verify "%STEAM_REG_PATH%\open_fortress" -1 -r 
+murse.exe verify "%STEAM_REG_PATH%\open_fortress" -r 
 :: > nul 2>&1
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong...
