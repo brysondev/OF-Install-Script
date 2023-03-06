@@ -135,14 +135,13 @@ SETLOCAL EnableDelayedExpansion
 murse.exe upgrade "%STEAM_REG_PATH%\open_fortress"
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong...
-    echo %ESC%[101mError Code 4XX means you are temporarily ^(or permanently^) restricted from accessing the server. Try again in 20 minutes.%ESC%[0m
-    echo %ESC%[101mError Code 5XX means the server is having issues. Try again after bryson has been informed.%ESC%[0m 
+    echo %ESC%[101mTry again in 20 minutes or report the issue to the discord server.%ESC%[0m
     goto exitmain
 )
 echo Validating just in case... 
 echo This will take a while...
 
-murse.exe verify "%STEAM_REG_PATH%\open_fortress" -r 
+murse.exe verify "%STEAM_REG_PATH%\open_fortress" -r
 :: > nul 2>&1
 if %ERRORLEVEL% EQU 1 (
     echo Something went wrong...
